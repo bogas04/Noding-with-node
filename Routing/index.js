@@ -7,7 +7,7 @@ var mime = {
   plain : 'text/plain'
 }
 function getContentType(type) {
-  return typeof mime[type] !== undefined ? mime[type] : mime.plain;
+  return typeof mime[type] !== 'undefined' ? mime[type] : mime.plain;
 }
 var domain = {
   path : 'http://127.0.0.1:1234/',
