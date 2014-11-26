@@ -1,7 +1,18 @@
 var http = require('http');
 var file = require('fs');
+var mime = {
+  css : 'text/css',
+  js : 'text/js',
+  html : 'text/html',
+  plain : 'text/plain'
+}
+function getContentType(type) {
+  return typeof mime[type] !== undefined ? mime[type] : mime.plain;
+}
 var domain = {
-  value : '127.0.0.1:1234/',
+  path : 'http://127.0.0.1:1234/',
+  name : '127.0.0.1',
+  port : '1234',
   assets : {
     css : {
       style : 'http://127.0.0.1:1234/assets/css/style.css'
@@ -14,9 +25,11 @@ var domain = {
 var views = {
   template : {
     error : function(title, body) {
-      return '<html>' + 
+      return '<!DOCTYPE html>\n' + 
+  	'<html>' + 
         '<head>' +
-           '<link href="'+ domain.assets.css.style +'" rel="stylesheet">' +
+	  '<meta charset="utf-8"/>' +    
+          '<link href="'+ domain.assets.css.style +'" rel="stylesheet"></link>' +
            '<title>' + title + '</title>' + 
          '</head>' + 
          '<body>' +
@@ -33,9 +46,11 @@ var views = {
       '</html>'; 
     },
     content : function(title, body) {
-      return '<htm>' +
+      return '<!DOCTYPE HTML>\n' +
+	'<html>' +
         '<head>' +
-	  '<link href="'+ domain.assets.css.style +'" rel="stylesheet">' +
+	  '<meta charset="utf-8"/>' +    
+          '<link href="'+ domain.assets.css.style +'" rel="stylesheet"></link>' +
           '<title>' + title + '</title>' + 
          '</head>' + 
          '<body>' +
@@ -66,43 +81,56 @@ views.home = views.template.content('Home', 'This is home page' +
 );
 views.about = views.template.content('About', 'This is about page');
 views.contact = views.template.content('Contact Us', 'nodejs@divjot.com');
-views.error._404 = views.template.error('Page not found' , ' Error code : 404 ');
+views.error._404 = views.template.error('Page not found' , ' Page not found. Error code : 404 ');
+views.error._403 = views.template.error('Page not found' , ' Access Denied. Error code : 403 ');
 http.createServer(function(req, res) {
+  console.log('=> ' + req.url);
   switch(req.url) {
     case '/' : case '/home' :  
       res.writeHead(200, {
-        'Content-Type' : 'text/html'
+        'Content-Type' : getContentType('html')
       });  
       res.end(views.home);
     break;
     case '/about' :
       res.writeHead(200, {
-        'Content-Type' : 'text/html'
+        'Content-Type' : getContentType('html')
       }); 
       res.end(views.about);
     break;
     case '/contact' :
      res.writeHead(200, {
-       'Content-Type' : 'text/html'
+       'Content-Type' : getContentType('html')
      });
      res.end(views.contact);
     break;
     default :
       file.readFile(__dirname + req.url, 'utf8', function(err, data) {
         if(err) {
-    	  console.log(err);
+    	  console.log('<= ' + ' 404');
+	  console.log(err);
  	  res.writeHead(404, {
-   	    'Content-Type' : 'text/html'
+   	    'Content-Type' : getContentType('html')
   	  });
  	  res.end(views.error._404);
         } else {
-  	  res.writeHead(200, {
-	    'Content-Type' : 'text/plain'
-  	  });
-  	  res.end(data);
-  	}
+	  if(req.url === '/index.js') {
+ 	    console.log('<= 403');
+ 	    res.writeHead(403, {
+   	      'Content-Type' : getContentType('html')
+  	    });
+ 	    res.end(views.error._403);
+ 	  } else {
+  	    var ext = req.url.split('.').slice(-1).pop();
+  	    var mimeType = getContentType(ext);
+	    console.log('<= ' + __dirname + req.url + ' | mime-type : ' + mimeType);
+  	    res.writeHead(200, {
+	      'Content-Type' : mimeType
+  	    });
+  	    res.end(data);
+	  }  
+	}
       });
   }
-  console.log('Request made to ' + __dirname + req.url);
-}).listen(1234, '127.0.0.1');
+}).listen(domain.port, domain.name);
 console.log('Server is on');
