@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+    <meta charset="utf-8"></meta>
+    <link rel="stylesheet" href="assets/css/home.css"></link>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="/">Nodestagram</a></li>
+        <li><a href="/about">About</a></li>
+        <li id="title">Home</li>
+        <li><span id="refresh-button" class="link">Refresh</span></li>
+        <li><span id="upload-button" class="link">Upload</span></li>
+      </ul>
+    </nav>
+    <div id="wrapper">
+    </div>
+    <div id="uploader">
+      <form id="uploader-form" method="post" action="/api/v1/picture.json" enctype="multipart/form-data">
+        <input type="text" id="userName" placeholder="Username" name="username">
+        <input type="file" id="file-select" name="imageFile">
+        <button id="uploading-button"> Upload </button>
+        <span class="button" id="cancel-upload"> Cancel </span>
+      </form>  
+    </div>
+  </body>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="assets/js/home.js"></script>
+</html>

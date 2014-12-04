@@ -1,0 +1,121 @@
+@media screen and (max-width:950px) {
+  nav ul li{
+   padding :0px 25px !important;;  
+  }
+}
+@media screen and (max-width:700px) {
+  nav ul li{
+   padding:0px 10px !important;
+  }
+}
+@media screen and (max-width:575px) {
+  nav {
+    position: static !important;
+  }
+  nav ul,nav ul li{
+   display : list-item !important;
+   list-style: none !important;
+    padding-top: 10px !important;
+  }
+}
+
+body {
+  background: #F5F5F5;
+  margin:0;
+  padding:0;
+  text-align:center;
+  font-size:120%;
+  font-family : Helvetica;
+}
+nav {
+  -moz-transition : all 0.25s;
+  -o-transition : all 0.25s;
+  -webkit-transition : all 0.25s;
+  -ms-transition : all 0.25s;
+  transition : all 0.25s;
+  padding: 10px 20px;
+  background :#363636;
+  color : white;
+  top :0;
+  left :0;
+  right:0;
+  box-shadow:0px 1px 10px 5px #262626;
+  position:fixed;
+}
+nav ul, nav ul li {
+  display: inline;
+}
+nav ul li {
+  padding : 0px 50px;
+
+}
+nav ul li a{
+  text-decoration :none;
+}
+#wrapper{
+  margin:80px auto;
+  width:100%;
+}
+.link,a {
+  color:#349FD1;
+  cursor:pointer;
+}
+.link:active,a:active { 
+  color:#1F77A1;
+}
+.link:hover,a:hover {
+  color:#4DBCF2;
+}
+.posts {
+  background: white;
+  margin:20px auto;
+  width: 500px;
+  padding:10px;
+  border:1px solid #349FD1;
+  border-radius: 5px;
+}
+.posts img {
+  width : 100%;
+}
+.posts .meta {
+  padding: 10px 0px 20px 0px;  
+}
+.posts .user {
+  float :left;
+}
+.posts .timestamp {
+  float :right;
+}
+#uploader {
+  display:none;
+  position:fixed;
+  top:10%;
+  left:35%;
+  width:400px;
+  border:1px solid grey;
+  box-shadow: 0px 0px 5px 2px black;
+  text-align:center;
+  background:white;
+}
+#uploader-form input {
+  display:block;
+  margin:5px;
+  padding:5px;
+}
+.button {
+  padding: 6px 9px 2px;
+  display: inline-block;
+}
+button, .button {
+  border:1px solid grey;
+  background:white;
+  color:black;
+  margin:10px 5px;
+  font-size:110%;
+  cursor:pointer;
+}
+button:hover, .button:hover {
+  border-bottom: 2px solid black;
+  border-right: 2px solid black;
+}
+

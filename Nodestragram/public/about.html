@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>About</title>
+    <meta charset="utf-8"></meta>
+    <link rel="stylesheet" href="assets/css/home.css"></link>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="/">Nodestagram</a></li>
+        <li><a href="/about">About</a></li>
+        <li id="title">About</li>
+        <li><a href="/api/v1/pictures.json?help=1">API help</a></li>
+        <li><a href="http://in.linkedin.com/in/divjot/">Divjot Singh</a></li>
+      </ul>
+    </nav>
+    <div id='wrapper'>
+      <h2> Nodestagram </h2>
+      <h4> Desc </h4>
+      <p>
+        A very basic express JS web app. It allows users to upload pictures and view the pictures. It uses a JSON API internally to fetch images.
+      </p>
+      <h4> API help </h4>
+      <p>
+        You can simply call <a href="/api/v1/pictures.json?help=1">api/v1/pictures.json?help=1</a> to get help on API.
+      </p>
+      <p>
+        <pre  style="text-align:left !important;">
+          {
+            "Title" : "API Ref | Get Pictures - Nodestagram",
+            "Response": {
+              "error" : false,
+              "code" : 200,
+              "msg" : "Message",
+              "data" : [
+                {
+                  "time" : 1417725298547,
+                  "user" : "bogas04",
+                  "url" : "img1.jpg"
+                }
+              ]
+            },
+            "Parameters" : {
+              "user" : {
+                "optional" : true,
+                "desc" : "Returns all pictures (max 20) from given user",
+                "example" : "For eg : http://127.0.0.1:8080/v1/pictures.json?user=bogas04"
+                },
+                "startTime" : {
+                  "optional" : true,
+                  "desc" : "Filters pictures which are taken after given the given time in milliseconds since 1, Jan, 1970.",
+                  "example" : " For eg :  http://127.0.0.1:8080/v1/pictures.json?startTime=1417725298547"
+                },
+                "endTime" : {
+                  "optional" : true,
+                  "desc" : "Filters pictures which are taken before the given time in milliseconds since 1, Jan, 1970.",
+                  "example" : " For eg :  http://127.0.0.1:8080/v1/pictures.json?endTime=1417725298547"
+                },
+                "startPage" : {
+                  "optional" : true,
+                  "desc" : "Filters pictures which are taken after given parameter th picture.",
+                  "example":" For eg this will return (max 20) pictures after 10th picture uploaded on server :  http://127.0.0.1:8080/v1/pictures.json?startPage=10"
+                },
+                "pageSize": {
+                  "optional" : true,
+                  "desc" : "Shows given parameter pictures in total. (max 20)",
+                  "example":" For eg :  http://127.0.0.1:8080/v1/pictures.json?pageSize=12"
+                }
+              }
+          }
+      </p>
+    </div>
+  </body>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</html>

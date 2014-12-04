@@ -1,14 +1,6 @@
 var http = require('http');
 var file = require('fs');
-var mime = {
-  css : 'text/css',
-  js : 'text/js',
-  html : 'text/html',
-  plain : 'text/plain'
-}
-function getContentType(type) {
-  return typeof mime[type] !== 'undefined' ? mime[type] : mime.plain;
-}
+var mime = require('./mime.js');
 var domain = {
   path : 'http://127.0.0.1:1234/',
   name : '127.0.0.1',
@@ -84,52 +76,50 @@ views.contact = views.template.content('Contact Us', 'nodejs@divjot.com');
 views.error._404 = views.template.error('Page not found' , ' Page not found. Error code : 404 ');
 views.error._403 = views.template.error('Page not found' , ' Access Denied. Error code : 403 ');
 http.createServer(function(req, res) {
-  console.log('=> ' + req.url);
+  console.log('=> [' + req.method + '] ' + req.url);
   switch(req.url) {
     case '/' : case '/home' :  
       res.writeHead(200, {
-        'Content-Type' : getContentType('html')
+        'Content-Type' : mime.getContentType('html')
       });  
       res.end(views.home);
     break;
     case '/about' :
       res.writeHead(200, {
-        'Content-Type' : getContentType('html')
+        'Content-Type' : mime.getContentType('html')
       }); 
       res.end(views.about);
     break;
     case '/contact' :
      res.writeHead(200, {
-       'Content-Type' : getContentType('html')
+       'Content-Type' : mime.getContentType('html')
      });
      res.end(views.contact);
     break;
     default :
       file.readFile(__dirname + req.url, 'utf8', function(err, data) {
         if(err) {
-    	  console.log('<= ' + ' 404');
-	  console.log(err);
- 	  res.writeHead(404, {
-   	    'Content-Type' : getContentType('html')
-  	  });
- 	  res.end(views.error._404);
+          console.log('<= ' + ' 404');
+          console.log(err);
+          res.writeHead(404, {
+            'Content-Type' : mime.getContentType('html')
+          });
+          res.end(views.error._404);
+        } else if(req.url === '/index.js') {
+          console.log('<= 403');
+          res.writeHead(403, {
+            'Content-Type' : mime.getContentType('html')
+          });
+          res.end(views.error._403);
         } else {
-	  if(req.url === '/index.js') {
- 	    console.log('<= 403');
- 	    res.writeHead(403, {
-   	      'Content-Type' : getContentType('html')
-  	    });
- 	    res.end(views.error._403);
- 	  } else {
-  	    var ext = req.url.split('.').slice(-1).pop();
-  	    var mimeType = getContentType(ext);
-	    console.log('<= ' + __dirname + req.url + ' | mime-type : ' + mimeType);
-  	    res.writeHead(200, {
-	      'Content-Type' : mimeType
-  	    });
-  	    res.end(data);
-	  }  
-	}
+          var ext = req.url.split('.').slice(-1).pop();
+          var mimeType = mime.getContentType(ext);
+          console.log('<= ' + __dirname + req.url + ' | mime-type : ' + mimeType);
+          res.writeHead(200, {
+            'Content-Type' : mimeType
+          });
+          res.end(data);
+        }  
       });
   }
 }).listen(domain.port, domain.name);
