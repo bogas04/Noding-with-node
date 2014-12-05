@@ -1,5 +1,5 @@
 {
-  "name" : "Nodestagram",
+  "name" : "Nodegram",
   "version" : "0.0.1",
   "description" : "A web app to mimic Instagram",
   "dependencies" : {
